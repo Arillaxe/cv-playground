@@ -1,6 +1,5 @@
 import cv2
 import mediapipe as mp
-import time
 import FPS
 
 
@@ -29,7 +28,7 @@ def main():
   cap = cv2.VideoCapture(1)
 
   fpsCounter = FPS.FPSCounter()
-  
+
   detector = FaceDectetor()
 
   while True:

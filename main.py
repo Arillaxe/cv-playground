@@ -1,9 +1,9 @@
 import cv2
-import time
 import FPS
 import HandTracking
 import PoseEstimation
 import FaceDetection
+import FaceMesh
 
 
 def main():
@@ -14,6 +14,7 @@ def main():
   handDetector = HandTracking.HandDetector()
   poseDetector = PoseEstimation.PoseDetector()
   faceDetector = FaceDetection.FaceDectetor()
+  faceMeshDetector = FaceMesh.FaceMeshDetector()
 
   while True:
     success, img = cap.read()
@@ -22,6 +23,7 @@ def main():
 
     img = handDetector.findHands(img)
     img = poseDetector.findPose(img)
+    img = faceMeshDetector.findFaces(img)
 
     if len(faceBoxes) != 0:
       for box in faceBoxes:
