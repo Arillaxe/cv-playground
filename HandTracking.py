@@ -1,6 +1,7 @@
 import cv2
 import mediapipe as mp
 import time
+import FPS
 
 
 class HandDetector():
@@ -37,9 +38,8 @@ class HandDetector():
 def main():
   cap = cv2.VideoCapture(1)
 
-  pTime = 0
-  cTime = 0
-
+  fpsCounter = FPS.FPSCounter()
+  
   detector = HandDetector()
 
   while True:
@@ -47,9 +47,7 @@ def main():
 
     img = detector.findHands(img)
 
-    cTime = time.time()
-    fps = 1 / (cTime - pTime)
-    pTime = cTime
+    fps = fpsCounter.getFPS()
 
     cv2.putText(img, str(int(fps)), (10, 70), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
 

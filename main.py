@@ -1,5 +1,6 @@
 import cv2
 import time
+import FPS
 import HandTracking
 import PoseEstimation
 import FaceDetection
@@ -8,8 +9,7 @@ import FaceDetection
 def main():
   cap = cv2.VideoCapture(1)
 
-  pTime = 0
-  cTime = 0
+  fpsCounter = FPS.FPSCounter()
 
   handDetector = HandTracking.HandDetector()
   poseDetector = PoseEstimation.PoseDetector()
@@ -27,9 +27,7 @@ def main():
       for box in faceBoxes:
         cv2.rectangle(img, box, (255, 100, 100), 2)
 
-    cTime = time.time()
-    fps = 1 / (cTime - pTime)
-    pTime = cTime
+    fps = fpsCounter.getFPS()
 
     cv2.putText(img, str(int(fps)), (10, 70), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
 

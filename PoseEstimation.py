@@ -1,6 +1,7 @@
 import cv2
 import mediapipe as mp
 import time
+import FPS
 
 
 class PoseDetector():
@@ -34,9 +35,8 @@ class PoseDetector():
 def main():
   cap = cv2.VideoCapture(1)
 
-  pTime = 0
-  cTime = 0
-
+  fpsCounter = FPS.FPSCounter()
+  
   detector = PoseDetector()
 
   while True:
@@ -48,9 +48,7 @@ def main():
     if len(positions) != 0:
       cv2.circle(img, (positions[14][1], positions[14][2]), 15, (255, 100, 100), cv2.FILLED)
 
-    cTime = time.time()
-    fps = 1 / (cTime - pTime)
-    pTime = cTime
+    fps = fpsCounter.getFPS()
 
     cv2.putText(img, str(int(fps)), (10, 70), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
 

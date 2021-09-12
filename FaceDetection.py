@@ -1,6 +1,7 @@
 import cv2
 import mediapipe as mp
 import time
+import FPS
 
 
 class FaceDectetor():
@@ -27,9 +28,8 @@ class FaceDectetor():
 def main():
   cap = cv2.VideoCapture(1)
 
-  pTime = 0
-  cTime = 0
-
+  fpsCounter = FPS.FPSCounter()
+  
   detector = FaceDectetor()
 
   while True:
@@ -41,9 +41,7 @@ def main():
       for box in boxes:
         cv2.rectangle(img, box, (255, 100, 100), 2)
 
-    cTime = time.time()
-    fps = 1 / (cTime - pTime)
-    pTime = cTime
+    fps = fpsCounter.getFPS()
 
     cv2.putText(img, str(int(fps)), (10, 70), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
 
