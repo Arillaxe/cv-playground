@@ -2,6 +2,8 @@ import cv2
 import time
 import HandTracking
 import PoseEstimation
+import FaceDetection
+
 
 def main():
   cap = cv2.VideoCapture(1)
@@ -11,12 +13,19 @@ def main():
 
   handDetector = HandTracking.HandDetector()
   poseDetector = PoseEstimation.PoseDetector()
+  faceDetector = FaceDetection.FaceDectetor()
 
   while True:
     success, img = cap.read()
 
+    faceBoxes = faceDetector.getBoundingBoxes(img)
+
     img = handDetector.findHands(img)
     img = poseDetector.findPose(img)
+
+    if len(faceBoxes) != 0:
+      for box in faceBoxes:
+        cv2.rectangle(img, box, (255, 100, 100), 2)
 
     cTime = time.time()
     fps = 1 / (cTime - pTime)
